@@ -1,5 +1,5 @@
 (*
-Open Terminal in Folder - Version 1.0.0
+Open Terminal in Folder - Version 1.1.0
 Copyright (c) 2025 Ervins Strauhmanis
 Licensed under the MIT License:
 
@@ -93,20 +93,12 @@ on run {input, parameters}
 			end tell
 		end if
 		
-		-- Step 3: Open Terminal
-		tell application "Terminal"
-			if not (exists window 1) then
-				set end of debugLog to "No Terminal window exists; reopening."
-				reopen
-				delay 0.5
-			else
-				set end of debugLog to "Terminal window already exists."
-			end if
-			set end of debugLog to "Final path for cd: " & itemPath
-			activate
-			do script "cd " & quoted form of itemPath in window 1
-			set end of debugLog to "Executed cd command successfully."
-		end tell
+		-- Step 3: Open Terminal (DIRECT SHELL APPROACH)
+		set end of debugLog to "Final path for cd: " & itemPath
+		
+		-- Use direct shell command to open Terminal with our path
+		do shell script "open -a Terminal " & quoted form of itemPath
+		set end of debugLog to "Opened Terminal directly at path."
 		
 		return input
 		
